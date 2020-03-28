@@ -1,0 +1,5 @@
+/home/rob/Projects/covid19-psvita-data/build/CMakeFiles/rebuild_cache.dir
+/home/rob/Projects/covid19-psvita-data/build/CMakeFiles/edit_cache.dir
+/home/rob/Projects/covid19-psvita-data/build/CMakeFiles/covid19-data.vpk.dir
+/home/rob/Projects/covid19-psvita-data/build/CMakeFiles/covid19-data.dir
+/home/rob/Projects/covid19-psvita-data/build/CMakeFiles/covid19-data.self.dir
