@@ -66,32 +66,32 @@ int main()
 
         vita2d_font_draw_textf(font20, 10, 70, RGBA8(0,0,0,255), 20, "Country: %s\nConfirmed: %d\nDeaths: %d\nRecovered: %d\nDays Since 2020-1-22: %d", country_name.c_str(), cases_confirmed, cases_deaths, cases_recovered, days);
 
-        draw_empty_rect(960 - vita2d_font_text_width(font20, 20, "Data Source: https://github.com/pomber/covid19"), 44, vita2d_font_text_width(font20, 20, "Data Source: https://github.com/pomber/covid19"), 150, RGBA8(0,0,0,255));
+        draw_empty_rect(960 - vita2d_font_text_width(font20, 20, "Data Source: https://github.com/pomber/covid19"), 44, vita2d_font_text_width(font20, 20, "Data Source: https://github.com/pomber/covid19"), 130, RGBA8(0,0,0,255));
 
         vita2d_font_draw_text(font20, 960 - vita2d_font_text_width(font20, 20, "KEY"), 70, RGBA8(0,0,0,255), 20, "KEY");
         vita2d_font_draw_text(font20, 960 - vita2d_font_text_width(font20, 20, "BLACK: Confirmed cases"), 90, RGBA8(0,0,0,255), 20, "BLACK: Confirmed cases");
         vita2d_font_draw_text(font20, 960 - vita2d_font_text_width(font20, 20, "RED: Deaths"), 110, RGBA8(255,0,0,255), 20, "RED: Deaths");
         vita2d_font_draw_text(font20, 960 - vita2d_font_text_width(font20, 20, "GREEN: Recovered"), 130, RGBA8(0,255,0,255), 20, "GREEN: Recovered");
         vita2d_font_draw_text(font20, 960 - vita2d_font_text_width(font20, 20, "Time searies starts at 2020-1-22"), 150, RGBA8(0,0,0,255), 20, "Time series starts at 2020-1-22");
-        vita2d_font_draw_text(font20, 960 - vita2d_font_text_width(font20, 20, "Graph uses a logarithmic scale with base 1.1"), 170, RGBA8(0,0,0,255), 20, "Graph uses a logarithmic scale with base 1.1");
-        vita2d_font_draw_text(font20, 960 - vita2d_font_text_width(font20, 20, "Data Source: https://github.com/pomber/covid19"), 190, RGBA8(0,0,0,255), 20, "Data Source: https://github.com/pomber/covid19");
+        vita2d_font_draw_text(font20, 960 - vita2d_font_text_width(font20, 20, "Data Source: https://github.com/pomber/covid19"), 170, RGBA8(0,0,0,255), 20, "Data Source: https://github.com/pomber/covid19");
 
+        vita2d_font_draw_text(font20, 960 / 2 - vita2d_font_text_width(font20, 20, "(Logarithmic Scale)") / 2, 544/2, RGBA8(0,0,0,255), 20, "(Logarithmic Scale)");
 
         int start_y = 544 - 30;
         int start_x = 100;
-        double height = (log2((double) cases_confirmed) / log2(1.1));
+        double height = log10((double) cases_confirmed) * 24;
 
         draw_line(start_x, start_y, start_x, 544/2, RGBA8(0,0,0,255));
         draw_line(start_x, start_y, start_x + 216*4, start_y, RGBA8(0,0,0,255));
-        vita2d_font_draw_text(font15, 0, 544 / 2, RGBA8(0,0,0,255), 15, "Y = log(N)\nlog base = 1.1");
+        vita2d_font_draw_text(font15, 0, 544 / 2, RGBA8(0,0,0,255), 15, "Y = log(N)");
         vita2d_font_draw_text(font15, start_x + 200*4, start_y + 25, RGBA8(0,0,0,255), 15, "X = days");
 
         double marker = 10.00;
-        for(int i = 0; i < 9; i++) {
-            double marker_height = (log2(marker) / log2(1.1));
+        for(int i = 0; i < 8; i++) {
+            double marker_height = log10(marker) * 24;
             draw_line(0, start_y - marker_height, start_x + 10, start_y - marker_height, RGBA8(0,0,0,255));
-            vita2d_font_draw_textf(font15, 0, start_y - marker_height - 2, RGBA8(0,0,0,255), 15, "log(%.0f)", marker);
-            marker *= 5;
+            vita2d_font_draw_textf(font15, 0, start_y - marker_height - 2, RGBA8(0,0,0,255), 15, "%.0f", marker);
+            marker *= 10;
         }
 
         for(int i = 0; i < 200; i += 10) {
@@ -104,24 +104,24 @@ int main()
         //int curr_y = start_y;
         for(unsigned int i = 0; i < days; i++) {
            double height = 0;
-           if(case_days.at(i).confirmed > 0) height = (log2((double) case_days.at(i).confirmed) / log2(1.1));
+           if(case_days.at(i).confirmed > 0) height = log10((double) case_days.at(i).confirmed) * 24;
            draw_rect(curr_x, start_y - height, 4, height, RGBA8(0,0,0,255));
            if(case_days.at(i).deaths > case_days.at(i).recovered) {
               height = 0;
-              if(case_days.at(i).deaths > 0) height = (log2((double) case_days.at(i).deaths) / log2(1.1));
+              if(case_days.at(i).deaths > 0) height = log10((double) case_days.at(i).deaths) * 24;
               draw_rect(curr_x, start_y - height, 4, height, RGBA8(255,0,0,255));
               
               height = 0;
-              if(case_days.at(i).recovered > 0) height = (log2((double) case_days.at(i).recovered) / log2(1.1));
+              if(case_days.at(i).recovered > 0) height = log10((double) case_days.at(i).recovered) * 24;
               draw_rect(curr_x, start_y - height, 4, height, RGBA8(0,255,0,255));
            }
            else {
               height = 0;
-              if(case_days.at(i).recovered > 0) height = (log2((double) case_days.at(i).recovered) / log2(1.1));
+              if(case_days.at(i).recovered > 0) height = log10((double) case_days.at(i).recovered) * 24;
               draw_rect(curr_x, start_y - height, 4, height, RGBA8(0,255,0,255));
 
               height = 0;
-              if(case_days.at(i).deaths > 0) height = (log2((double) case_days.at(i).deaths) / log2(1.1));
+              if(case_days.at(i).deaths > 0) height = log10((double) case_days.at(i).deaths) * 24;
               draw_rect(curr_x, start_y - height, 4, height, RGBA8(255,0,0,255));
            }
            curr_x += 4;
